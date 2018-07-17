@@ -1,4 +1,4 @@
-package com.xyz.designpattern.factory;
+package com.xyz.designpattern.factory.abstractfactory;
 
 /**
  * 类: PcCustomer <br>
@@ -12,6 +12,6 @@ public class PcCustomer {
         KeyBo keyBo = factory.createKeyBo();
         Mouse mouse = factory.createMouse();
         keyBo.sayHi();
-        keyBo.sayHi();
+        mouse.sayHi();
     }
 }

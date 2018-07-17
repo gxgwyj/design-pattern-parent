@@ -1,4 +1,5 @@
-package com.xyz.designpattern.factory;
+package com.xyz.designpattern.factory.simplefactory;
+
 
 /**
  * 类: Factory <br>

@@ -1,4 +1,4 @@
-package com.xyz.designpattern.factory;
+package com.xyz.designpattern.factory.abstractfactory;
 
 /**
  * 类: Mouse <br>
