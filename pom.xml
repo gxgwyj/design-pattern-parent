@@ -10,6 +10,7 @@
         <module>design-pattern-singleton</module>
         <module>design-pattern-factoryMethod</module>
         <module>design-pattern-common</module>
+        <module>design-pattern-adapter</module>
     </modules>
   <dependencies>
     <dependency>
