@@ -11,6 +11,7 @@
         <module>design-pattern-factoryMethod</module>
         <module>design-pattern-common</module>
         <module>design-pattern-adapter</module>
+        <module>design-pattern-proxy</module>
     </modules>
   <dependencies>
     <dependency>
