@@ -17,11 +17,11 @@ import java.lang.reflect.Proxy;
 public class DynamicProxyTest {
     public static void main(String[] args) {
         BizService bizService = new BizServiceImpl();
-        BizService proxyBizService = (BizService) Proxy.newProxyInstance(BizService.class.getClassLoader(), new Class[]{BizService.class}, new DynamicProxyHandler(bizService));
+        BizService proxyBizService = (BizService) Proxy.newProxyInstance(BizService.class.getClassLoader(), bizService.getClass().getInterfaces(), new DynamicProxyHandler(bizService));
         proxyBizService.method();
 
         UserService userService = new UserServiceImpl();
-        UserService proxyUserService = (UserService) Proxy.newProxyInstance(UserService.class.getClassLoader(), new Class[]{UserService.class}, new DynamicProxyHandler(userService));
+        UserService proxyUserService = (UserService) Proxy.newProxyInstance(UserService.class.getClassLoader(), userService.getClass().getInterfaces(), new DynamicProxyHandler(userService));
         proxyUserService.addUser();
         proxyUserService.updateUser();
 
