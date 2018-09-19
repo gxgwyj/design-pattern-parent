@@ -16,6 +16,9 @@ import java.lang.reflect.Proxy;
  */
 public class DynamicProxyTest {
     public static void main(String[] args) {
+        //使用该方法可以使得java动态生成的类保存下来
+        System.getProperties().put("sun.misc.ProxyGenerator.saveGeneratedFiles", "true");
+
         BizService bizService = new BizServiceImpl();
         BizService proxyBizService = (BizService) Proxy.newProxyInstance(BizService.class.getClassLoader(), bizService.getClass().getInterfaces(), new DynamicProxyHandler(bizService));
         proxyBizService.method();
