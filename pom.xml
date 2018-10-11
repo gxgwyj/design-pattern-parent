@@ -12,6 +12,7 @@
         <module>design-pattern-common</module>
         <module>design-pattern-adapter</module>
         <module>design-pattern-proxy</module>
+        <module>design-pattern-facade</module>
     </modules>
   <dependencies>
     <dependency>
