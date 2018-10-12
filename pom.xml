@@ -13,6 +13,7 @@
         <module>design-pattern-adapter</module>
         <module>design-pattern-proxy</module>
         <module>design-pattern-facade</module>
+        <module>design-pattern-templateMethod</module>
     </modules>
   <dependencies>
     <dependency>
