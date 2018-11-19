@@ -7,15 +7,16 @@ package com.xyz.designpattern.singleton;
  * 时间: 2018年07月30日 14:46
  */
 public class InnerStaticSingleton {
+    // 虚拟机保证初始化只初始了一次
     private InnerStaticSingleton() {
     }
 
-    private static class SingleInstatce {
+    private static class SingleInstance {
         private static final InnerStaticSingleton INSTANCE = new InnerStaticSingleton();
     }
 
     public static InnerStaticSingleton getInstance() {
-        return SingleInstatce.INSTANCE;
+        return SingleInstance.INSTANCE;
     }
 
 }
