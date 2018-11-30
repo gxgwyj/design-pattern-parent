@@ -1,4 +1,4 @@
-package com.xyz.designpattern.factory.abstractfactory;
+package com.xyz.designpattern.factory.abstractfactory.computer;
 
 /**
  * 类: KeyBo <br>
