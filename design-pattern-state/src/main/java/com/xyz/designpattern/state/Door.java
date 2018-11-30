@@ -4,7 +4,7 @@ import java.util.Observable;
 
 /**
  * 类: Door <br>
- * 描述: 代表门类（状态设计模式）<br>
+ * 描述: 代表门类的几个状态<br>
  * 作者:  gaoxugang<br>
  * 时间: 2018年11月17日 16:09
  */
