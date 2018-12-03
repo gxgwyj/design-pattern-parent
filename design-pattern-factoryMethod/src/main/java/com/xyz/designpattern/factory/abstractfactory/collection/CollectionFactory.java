@@ -1,11 +1,10 @@
 package com.xyz.designpattern.factory.abstractfactory.collection;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -18,13 +17,15 @@ public class CollectionFactory {
     public static void main(String[] args) {
         // List的迭代器
         List<String> list = new ArrayList<>();
+        list.add("name");
         Iterator<String> listIterator = list.iterator();
 
         Set<String> set = new HashSet<>();
+        set.add("name");
         Iterator<String> setIterator = set.iterator();
 
-        // Map 的迭代器
-        Map<String,String> map = new HashMap<>();
-
+        LinkedList<String> linkedList = new LinkedList<>();
+        linkedList.add("abc");
+        linkedList.iterator();
     }
 }
