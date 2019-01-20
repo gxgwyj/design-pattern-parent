@@ -5,7 +5,7 @@ import java.awt.*;
 
 /**
  * 类: ImageIconProxy <br>
- * 描述: 图片代理<br>
+ * 描述: 图片代理类<br>
  * 作者:  gaoxugang<br>
  * 时间: 2018年09月14日 22:51
  */
@@ -16,6 +16,7 @@ public class ImageIconProxy extends ImageIcon implements Runnable {
     static final ImageIcon LOADING = new ImageIcon(ClassLoader.getSystemResource("images/loading.jpg"));
     ImageIcon current = ABSENT;
 
+    // 实际的超大图片
     protected String filename;
     protected JFrame callbackFrame;
 
@@ -48,5 +49,10 @@ public class ImageIconProxy extends ImageIcon implements Runnable {
     @Override
     public synchronized void paintIcon(Component c, Graphics g, int x, int y) {
         super.paintIcon(c, g, x, y);
+    }
+
+    public static void main(String[] args) {
+        ImageIconProxy imageIconProxy = new ImageIconProxy("images/main.jpg");
+        imageIconProxy.load(new JFrame());
     }
 }
