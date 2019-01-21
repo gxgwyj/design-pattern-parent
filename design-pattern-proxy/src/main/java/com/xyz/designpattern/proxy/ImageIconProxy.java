@@ -10,10 +10,12 @@ import java.awt.*;
  * 时间: 2018年09月14日 22:51
  */
 public class ImageIconProxy extends ImageIcon implements Runnable {
-    //初始图片
+    // 初始图片
     static final ImageIcon ABSENT = new ImageIcon(ClassLoader.getSystemResource("images/absent.jpg"));
-    //加载图片
+    // 加载图片
     static final ImageIcon LOADING = new ImageIcon(ClassLoader.getSystemResource("images/loading.jpg"));
+
+    // 代理的ImageIcon
     ImageIcon current = ABSENT;
 
     // 实际的超大图片
@@ -49,10 +51,5 @@ public class ImageIconProxy extends ImageIcon implements Runnable {
     @Override
     public synchronized void paintIcon(Component c, Graphics g, int x, int y) {
         super.paintIcon(c, g, x, y);
-    }
-
-    public static void main(String[] args) {
-        ImageIconProxy imageIconProxy = new ImageIconProxy("images/main.jpg");
-        imageIconProxy.load(new JFrame());
     }
 }
