@@ -15,6 +15,7 @@ public class ProxyBizService implements BizService {
         this.bizService = bizService;
     }
 
+    @Override
     public void method() {
         System.out.println("method before");
         bizService.method();

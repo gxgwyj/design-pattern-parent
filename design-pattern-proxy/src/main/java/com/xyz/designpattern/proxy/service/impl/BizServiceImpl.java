@@ -9,6 +9,7 @@ import com.xyz.designpattern.proxy.service.BizService;
  * 时间: 2018年09月15日 13:50
  */
 public class BizServiceImpl implements BizService {
+    @Override
     public void method() {
         System.out.println("target 方法执行");
     }

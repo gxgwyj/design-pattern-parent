@@ -20,6 +20,7 @@ public class DynamicProxyTest {
         System.getProperties().put("sun.misc.ProxyGenerator.saveGeneratedFiles", "true");
 
         BizService bizService = new BizServiceImpl();
+        // 创建一个实例的动态代理类
         BizService proxyBizService = (BizService) Proxy.newProxyInstance(BizService.class.getClassLoader(), bizService.getClass().getInterfaces(), new DynamicProxyHandler(bizService));
         proxyBizService.method();
 
