@@ -9,10 +9,12 @@ import com.xyz.designpattern.proxy.service.UserService;
  * 时间: 2018年09月15日 15:05
  */
 public class UserServiceImpl implements UserService {
+    @Override
     public void addUser() {
         System.out.println("添加用户");
     }
 
+    @Override
     public void updateUser() {
         System.out.println("更新用户");
     }

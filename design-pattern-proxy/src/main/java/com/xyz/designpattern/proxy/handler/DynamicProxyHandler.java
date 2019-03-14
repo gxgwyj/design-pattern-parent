@@ -19,6 +19,7 @@ public class DynamicProxyHandler implements InvocationHandler {
         this.object = object;
     }
 
+    @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         String targetClassName = object.getClass().getSimpleName();
         String targetMethodName = method.getName();
