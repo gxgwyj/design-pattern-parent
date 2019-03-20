@@ -1,4 +1,4 @@
-package com.xyz.designpattern.adapter;
+package com.xyz.designpattern.adapter.clazz;
 
 /**
  * 类: BizServiceProcess <br>
@@ -8,6 +8,6 @@ package com.xyz.designpattern.adapter;
  */
 public class BizServiceProcess {
     public void usefulMethod(){
-
+        System.out.println("适配器中的类");
     }
 }

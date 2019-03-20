@@ -1,4 +1,4 @@
-package com.xyz.designpattern.adapter;
+package com.xyz.designpattern.adapter.clazz;
 
 /**
  * 类: BizService <br>
