@@ -17,8 +17,10 @@ public class ShowFlight extends JPanel {
      * 计算轨迹显示轨迹的方法
      * @param g
      */
+    @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g); // 绘制背景
+        // 绘制背景
+        super.paintComponent(g);
         int nPoint = 101;
         double w = getWidth() - 1;
         double h = getHeight() - 1;

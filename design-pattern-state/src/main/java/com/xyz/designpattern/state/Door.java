@@ -3,7 +3,7 @@ package com.xyz.designpattern.state;
 import java.util.Observable;
 
 /**
- * 类: Door <br>
+ * 类: Door，没有重构前的代表状态的类 <br>
  * 描述: 代表门类的几个状态<br>
  * 作者:  gaoxugang<br>
  * 时间: 2018年11月17日 16:09
@@ -69,6 +69,10 @@ public class Door extends Observable {
         setState(CLOSING);
     }
 
+    /**
+     * setState方法负责通知那些监听门状态改变的观察者
+     * @param state
+     */
     public void setState(int state) {
         this.state = state;
         setChanged();

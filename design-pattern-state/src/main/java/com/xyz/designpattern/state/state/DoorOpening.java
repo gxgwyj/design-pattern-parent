@@ -1,11 +1,13 @@
-package com.xyz.designpattern.state;
+package com.xyz.designpattern.state.state;
+
+import com.xyz.designpattern.state.DoorNew;
 
 /**
  * Created by Lenovo on 2018/11/25.
  */
 public class DoorOpening extends DoorState {
 
-    public DoorOpening(Door2 door) {
+    public DoorOpening(DoorNew door) {
         super(door);
     }
 

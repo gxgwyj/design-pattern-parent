@@ -15,6 +15,7 @@
         <module>design-pattern-facade</module>
         <module>design-pattern-templateMethod</module>
         <module>design-pattern-state</module>
+        <module>design-pattern-strategy</module>
     </modules>
   <dependencies>
     <dependency>
