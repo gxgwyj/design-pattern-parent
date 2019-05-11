@@ -1,4 +1,4 @@
-package com.xyz.designpattern.strategy;
+package com.xyz.designpattern.strategy.old;
 
 /**
  * 类: FireWork <br>

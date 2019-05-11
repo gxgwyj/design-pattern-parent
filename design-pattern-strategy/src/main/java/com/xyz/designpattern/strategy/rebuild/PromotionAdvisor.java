@@ -1,4 +1,7 @@
-package com.xyz.designpattern.strategy;
+package com.xyz.designpattern.strategy.rebuild;
+
+import com.xyz.designpattern.strategy.old.Customer;
+import com.xyz.designpattern.strategy.old.FireWork;
 
 import java.io.IOException;
 import java.util.Properties;

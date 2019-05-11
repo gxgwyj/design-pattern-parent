@@ -1,4 +1,5 @@
-package com.xyz.designpattern.strategy;
+package com.xyz.designpattern.strategy.old;
+
 
 import java.io.IOException;
 import java.util.Calendar;
