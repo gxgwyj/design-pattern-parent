@@ -35,30 +35,42 @@ public class Customer {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            // 此处异常并不阻断程序的流程，继续执行后面的逻辑
+            e.fillInStackTrace();
         }
 
-        // 判断用户是否注册
+        // 注册的用户使用Rel8广告引擎
         if (isRegistered()) {
             return (FireWork)Rel8.advise(this);
         }
 
         // 判断用户上一年的花费
         Calendar cal = Calendar.getInstance();
+        // 向前推迟一年
         cal.add(Calendar.YEAR, -1);
         if (spendingSince(cal.getTime()) > 1000) {
+            // 使用LikeMyStuff 广告引擎
             return (FireWork) LikeMyStuff.suggest(this);
         }
 
-        // 返回默认(随机)
+        // 如果不符合上述条件，随机获取一个烟花产品
         return FireWork.getRandom();
     }
 
-    private long spendingSince(Date time) {
+    /**
+     * 计算用户以往的消费情况
+     * @param time
+     * @return
+     */
+    protected long spendingSince(Date time) {
         return 0;
     }
 
-    private boolean isRegistered() {
+    /**
+     * 判断用户是否注册
+     * @return
+     */
+    protected boolean isRegistered() {
         return true;
     }
 }

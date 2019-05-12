@@ -6,7 +6,7 @@ import com.xyz.designpattern.strategy.old.Rel8;
 
 /**
  * 类: GroupAdvisor <br>
- * 描述: <br>
+ * 描述: 注册用户推荐的烟火产品<br>
  * 作者:  gaoxugang<br>
  * 时间: 2019年04月24日 16:44
  */

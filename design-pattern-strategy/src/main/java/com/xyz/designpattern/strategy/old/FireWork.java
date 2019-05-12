@@ -8,7 +8,7 @@ package com.xyz.designpattern.strategy.old;
  */
 public class FireWork {
     /**
-     * 随机获取一条
+     * 随机获取烟花产品
      *
      * @return
      */
@@ -16,6 +16,11 @@ public class FireWork {
         return null;
     }
 
+    /**
+     * 根据名称获取烟花产品
+     * @param name
+     * @return
+     */
     public static FireWork lookup(String name) {
         return null;
     }
