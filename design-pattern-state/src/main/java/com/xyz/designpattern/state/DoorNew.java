@@ -15,28 +15,18 @@ import java.util.Observable;
  */
 public class DoorNew extends Observable {
 
-    public final DoorState CLOSED = new DoorClosed(this);
-    public final DoorState CLOSING = new DoorClosing(this);
-    public final DoorState OPEN = new DoorOpen(this);
-    public final DoorState OPENING = new DoorOpening(this);
-    public final DoorState STAYOPEN = new DoorStayOpen(this);
 
-    private DoorState state = CLOSED;
-
-    public void complete() {
-        state.complete();
-    }
+    /**
+     * 默认初始状态
+     */
+    private DoorState state = new DoorClosed();
 
     public String status() {
         return state.status();
     }
 
-    public void timeout() {
-        state.timeout();
-    }
-
     public void touch() {
-        state.touch();
+        state = state.touch();
     }
 
     public void setState(DoorState state) {
