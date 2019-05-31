@@ -11,9 +11,10 @@ package com.oozinoz.testing;
  * restriction that you may not claim that you wrote it.
  */
 
-import junit.framework.TestCase;
 
 import com.oozinoz.utility.Dollars;
+import junit.framework.TestCase;
+
 
 public class DollarsTest extends TestCase {
     public void testZero() {
