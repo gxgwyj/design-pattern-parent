@@ -16,6 +16,7 @@
         <module>design-pattern-templateMethod</module>
         <module>design-pattern-state</module>
         <module>design-pattern-strategy</module>
+        <module>design-pattern-observer</module>
     </modules>
   <dependencies>
     <dependency>
