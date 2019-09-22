@@ -14,12 +14,20 @@ import java.util.Observable;
  * Created by Lenovo on 2018/11/25.
  */
 public class DoorNew extends Observable {
+    /**
+     *  每个主体对象中都有该对象所有的状态对象常量（注意不能声明为static，如果为static则非线程安全）
+     */
+    public  final DoorState CLOSED = new DoorClosed(this);
+    public  final DoorState CLOSING = new DoorClosing(this);
+    public  final DoorState OPEN = new DoorOpen(this);
+    public  final DoorState OPENING = new DoorOpening(this);
+    public  final DoorState STAYOPEN = new DoorStayOpen(this);
 
 
     /**
      * 默认初始状态
      */
-    private DoorState state = new DoorClosed();
+    private DoorState state = CLOSED;
 
     public String status() {
         return state.status();

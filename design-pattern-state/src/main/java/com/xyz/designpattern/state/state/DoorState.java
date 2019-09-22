@@ -1,6 +1,8 @@
 package com.xyz.designpattern.state.state;
 
 
+import com.xyz.designpattern.state.DoorNew;
+
 /**
  * Door 状态抽象类
  * Created by Lenovo on 2018/11/25.
@@ -8,13 +10,17 @@ package com.xyz.designpattern.state.state;
 public abstract class DoorState {
 
     /**
-     *  是状态成为常量
+     * 状态对象中包含主题对象
      */
-    public static final DoorState CLOSED = new DoorClosed();
-    public static final DoorState CLOSING = new DoorClosing();
-    public static final DoorState OPEN = new DoorOpen();
-    public static final DoorState OPENING = new DoorOpening();
-    public static final DoorState STAYOPEN = new DoorStayOpen();
+    protected DoorNew door;
+
+    /**
+     * 构造方法
+     * @param door
+     */
+    public DoorState(DoorNew door) {
+        this.door = door;
+    }
 
     public abstract DoorState touch();
 
