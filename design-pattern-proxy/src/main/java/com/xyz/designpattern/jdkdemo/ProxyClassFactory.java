@@ -22,6 +22,12 @@ public class ProxyClassFactory implements BiFunction<ClassLoader,Class<?>[],Clas
     // 代理类唯一序列
     private static final AtomicLong nextUniqueNumber = new AtomicLong();
 
+    /**
+     * 入参
+     * @param classLoader 类加载器
+     * @param interfaces 接口数组
+     * @return  返回一个创建好的代理类
+     */
     @Override
     public Class<?> apply(ClassLoader classLoader, Class<?>[] interfaces) {
 
