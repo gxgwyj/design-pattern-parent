@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 /**
  * @author gaoxugang
  * @data 2020/12/13  14:29
- * @description java 缓存
+ * @description java 弱缓存
  *
  * @param <K> key类型
  * @param <P> 参数类型
@@ -27,8 +27,14 @@ public class WeakCache<K, P, V> {
 
     private final ConcurrentMap<Supplier<V>, Boolean> reverseMap = new ConcurrentHashMap<>();
 
+    /**
+     * subKey工厂
+     */
     private final BiFunction<K, P, ?> subKeyFactory;
 
+    /**
+     * 值工厂
+     */
     private final BiFunction<K, P, V> valueFactory;
 
 
@@ -42,9 +48,62 @@ public class WeakCache<K, P, V> {
         this.valueFactory = Objects.requireNonNull(valueFactory);
     }
 
+    /**
+     * 从缓存中获取值
+     * @param key
+     * @param parameter
+     * @return
+     */
     public V get(K key,P parameter) {
+        // 判断parameter 参数不能为空
         Objects.requireNonNull(parameter);
-        return null;
+
+        expungeStaleEntries();
+
+        // 获取缓存key
+        Object cacheKey = CacheKey.valueOf(key, refQueue);
+
+        // 获取值
+        ConcurrentMap<Object, Supplier<V>> valuesMap = map.get(cacheKey);
+        if (valuesMap == null) {
+            ConcurrentMap<Object, Supplier<V>> oldValuesMap = map.putIfAbsent(cacheKey, valuesMap = new ConcurrentHashMap<>());
+            if (oldValuesMap != null) {
+                valuesMap = oldValuesMap;
+            }
+        }
+
+        // 获取subKey
+        Object subKey = Objects.requireNonNull(subKeyFactory.apply(key, parameter));
+        Supplier<V> supplier = valuesMap.get(subKey);
+        Factory factory = null;
+
+        while (true) {
+
+            if (supplier != null) {
+                V value = supplier.get();
+                if (value != null) {
+                    return value;
+                }
+            }
+
+            // 延迟初始化工厂类
+            if (factory == null) {
+                factory = new Factory(key, parameter, subKey, valuesMap);
+            }
+
+            if (supplier == null) {
+                supplier = valuesMap.putIfAbsent(subKey, factory);
+                if (supplier == null) {
+                    supplier = factory;
+                }
+            } else {
+                if (valuesMap.replace(subKey, supplier, factory)) {
+                    supplier = factory;
+                } else {
+                    supplier = valuesMap.get(subKey);
+                }
+            }
+        }
     }
 
     public boolean containsValue(V value) {
