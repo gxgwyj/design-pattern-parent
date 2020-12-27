@@ -28,20 +28,20 @@ public class WeakCache<K, P, V> {
     private final ConcurrentMap<Supplier<V>, Boolean> reverseMap = new ConcurrentHashMap<>();
 
     /**
-     * subKey工厂
+     * 根据key和parameter生成subKey的函数工厂
      */
     private final BiFunction<K, P, ?> subKeyFactory;
 
     /**
-     * 值工厂
+     * 根据key和parameter生成value的函数工厂
      */
     private final BiFunction<K, P, V> valueFactory;
 
 
     /**
      * 构造参数
-     * @param subKeyFactory
-     * @param valueFactory
+     * @param subKeyFactory (key, parameter) -> sub-key
+     * @param valueFactory  (key, parameter) -> value
      */
     public WeakCache(BiFunction<K, P, ?> subKeyFactory, BiFunction<K, P, V> valueFactory) {
         this.subKeyFactory = Objects.requireNonNull(subKeyFactory);
@@ -49,21 +49,21 @@ public class WeakCache<K, P, V> {
     }
 
     /**
-     * 从缓存中获取值
+     * 根据key和subKey从缓存中获取值
+     *
      * @param key
      * @param parameter
      * @return
      */
-    public V get(K key,P parameter) {
-        // 判断parameter 参数不能为空
+    public V get(K key, P parameter) {
         Objects.requireNonNull(parameter);
 
         expungeStaleEntries();
 
-        // 获取缓存key
+        // 根据key创建缓存key
         Object cacheKey = CacheKey.valueOf(key, refQueue);
 
-        // 获取值
+        // 根据缓存key获取对应的subKey的值映射
         ConcurrentMap<Object, Supplier<V>> valuesMap = map.get(cacheKey);
         if (valuesMap == null) {
             ConcurrentMap<Object, Supplier<V>> oldValuesMap = map.putIfAbsent(cacheKey, valuesMap = new ConcurrentHashMap<>());
@@ -135,8 +135,15 @@ public class WeakCache<K, P, V> {
         private final Object subKey;
         private final ConcurrentMap<Object, Supplier<V>> valuesMap;
 
-        Factory(K key, P parameter, Object subKey,
-                ConcurrentMap<Object, Supplier<V>> valuesMap) {
+        /**
+         * 构造方法
+         *
+         * @param key
+         * @param parameter
+         * @param subKey  子key
+         * @param valuesMap
+         */
+        Factory(K key, P parameter, Object subKey, ConcurrentMap<Object, Supplier<V>> valuesMap) {
             this.key = key;
             this.parameter = parameter;
             this.subKey = subKey;
@@ -145,6 +152,7 @@ public class WeakCache<K, P, V> {
 
         @Override
         public synchronized V get() {
+            // 使用key获取工厂类
             Supplier<V> supplier = valuesMap.get(subKey);
             if (supplier != this) {
                 return null;
@@ -162,16 +170,37 @@ public class WeakCache<K, P, V> {
 
             assert value != null;
 
-            return null;
+            // 构建一个缓存值
+            CacheValue<V> cacheValue = new CacheValue<>(value);
+
+            // 放入撤销的map中
+            reverseMap.put(cacheValue, Boolean.TRUE);
+
+            if (valuesMap.replace(subKey, this, cacheValue)) {
+                throw new AssertionError("Should not reach here");
+            }
+            return value;
         }
     }
 
+    /**
+     * 抽象接口value
+     * @param <V>
+     */
     private interface Value<V> extends Supplier<V> {}
 
+    /**
+     * 查找值
+     * @param <V>
+     */
     private static final class LookupValue<V> implements Value<V> {
 
         private final V value;
 
+        /**
+         * 构造方法
+         * @param value
+         */
         LookupValue(V value) {
             this.value = value;
         }
@@ -193,11 +222,16 @@ public class WeakCache<K, P, V> {
     }
 
 
-    private static final class CacheValue<V>
-            extends WeakReference<V> implements Value<V>
-    {
+    /**
+     * 缓存值
+     * @param <V>
+     */
+    private static final class CacheValue<V> extends WeakReference<V> implements Value<V> {
         private final int hash;
-
+        /**
+         * 构造函数
+         * @param value
+         */
         CacheValue(V value) {
             super(value);
             this.hash = System.identityHashCode(value); // compare by identity
@@ -219,8 +253,13 @@ public class WeakCache<K, P, V> {
     }
 
 
+    /**
+     * 缓存key，继承弱引用类型
+     * @param <K>
+     */
     private static final class CacheKey<K> extends WeakReference<K> {
 
+        // 空key
         private static final Object NULL_KEY = new Object();
 
         static <K> Object valueOf(K key, ReferenceQueue<K> refQueue) {
@@ -229,6 +268,11 @@ public class WeakCache<K, P, V> {
 
         private final int hash;
 
+        /**
+         * 构造方法
+         * @param key
+         * @param refQueue
+         */
         private CacheKey(K key, ReferenceQueue<K> refQueue) {
             super(key, refQueue);
             this.hash = System.identityHashCode(key);
@@ -239,6 +283,11 @@ public class WeakCache<K, P, V> {
             return hash;
         }
 
+        /**
+         * 比较是否相同
+         * @param obj
+         * @return
+         */
         @Override
         public boolean equals(Object obj) {
             K key;
@@ -251,6 +300,11 @@ public class WeakCache<K, P, V> {
                             key == ((CacheKey<K>) obj).get();
         }
 
+        /**
+         * 移除
+         * @param map
+         * @param reverseMap
+         */
         void expungeFrom(ConcurrentMap<?, ? extends ConcurrentMap<?, ?>> map,
                          ConcurrentMap<?, Boolean> reverseMap) {
             ConcurrentMap<?, ?> valuesMap = map.remove(this);
