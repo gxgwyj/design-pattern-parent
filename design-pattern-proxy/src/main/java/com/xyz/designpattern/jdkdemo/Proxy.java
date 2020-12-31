@@ -2,6 +2,7 @@ package com.xyz.designpattern.jdkdemo;
 
 import sun.misc.ProxyGenerator;
 import sun.misc.VM;
+import sun.reflect.CallerSensitive;
 import sun.reflect.Reflection;
 import sun.reflect.misc.ReflectUtil;
 import sun.security.util.SecurityConstants;
@@ -314,7 +315,40 @@ public class Proxy implements java.io.Serializable{
 
 
         /**
-         * 加载类
+         * 验证是Proxy的子类
+         * @param cl
+         * @return
+         */
+        public static boolean isProxyClass(Class<?> cl) {
+            return Proxy.class.isAssignableFrom(cl) && proxyClassCache.containsValue(cl);
+        }
+
+
+        @CallerSensitive
+        public static InvocationHandler getInvocationHandler(Object proxy) throws IllegalArgumentException {
+
+            if (!isProxyClass(proxy.getClass())) {
+                throw new IllegalArgumentException("not a proxy instance");
+            }
+
+            final Proxy p = (Proxy) proxy;
+            final InvocationHandler ih = p.h;
+
+            if (System.getSecurityManager() != null) {
+                Class<?> ihClass = ih.getClass();
+                Class<?> caller = Reflection.getCallerClass();
+
+                if (ReflectUtil.needsPackageAccessCheck(caller.getClassLoader(), ihClass.getClassLoader())) {
+                    ReflectUtil.checkPackageAccess(ihClass);
+                }
+
+            }
+            return ih;
+        }
+
+
+        /**
+         * 加载类 native方法
          * @param loader
          * @param name
          * @param b 文件
