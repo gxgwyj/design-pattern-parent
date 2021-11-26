@@ -28,7 +28,7 @@ public class SimpleFactory {
     }
 
     /**
-     * 根据类别创建对象
+     * 根据类别创建对象(使用反射具有性能损耗)
      * @param clazz
      * @return
      */
